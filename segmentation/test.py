@@ -3,7 +3,7 @@ from scipy.misc import imread
 from scipy.ndimage.filters import gaussian_filter
 
 from ball import make_ball
-from segmentation import track_edge, reduce_chain, decode_edge8, path2coords, pad_image
+from segmentation import track_edge, reduce_chain8, decode_edge8, path2coords, pad_image
 from fourierd import *
 
 print 'making image'
@@ -52,7 +52,7 @@ FDedge2,FDchain = track_edge(FDedge)
 figure(3)
 spectral()
 imshow(FDedge2+FDedge)
-
-print (FDedge==FDedge2).sum(), FDedge.shape[0] * FDedge.shape[1]
-
 show()
+
+# Notes:
+#   edges tracked are already 8-reduced

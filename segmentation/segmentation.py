@@ -75,7 +75,7 @@ def track_edge(im,start=None):
         if im2[i,j]==1:
             dir = checkdir
             point = point+map8[checkdir]
-            edge[i,j]=1
+            edge[i-1,j-1]=1
             chain.append(dir)
             
             # if we've hit the start, then end the loop
@@ -88,8 +88,8 @@ def track_edge(im,start=None):
     
     return edge,np.array(chain)
 
-# reduce 4-connected edge to be 8-connected where possible
-def reduce_chain(chain):
+# reduce 4-connected chain to be 8-connected where possible, eliminating redundancies
+def reduce_chain4(chain):
     # keep starting pixel info - it can't be redundant
     chain8 = [chain[i] for i in range(2)]
     i,j = 2,3
@@ -122,6 +122,36 @@ def reduce_chain(chain):
   
     return np.array(chain8)
 
+# eliminate redundancies in 8-connected chain
+def reduce_chain8(chain):
+    # keep starting pixel info - it can't be redundant
+    chain8 = [chain[i] for i in range(2)]
+    i,j = 2,3
+    
+    while j<len(chain):
+        if chain[i] == 0 and chain[j]==6:
+            newdir = 7
+            chain8.append(newdir)
+            i+=2
+            j+=2
+        elif chain[i] == 6 and chain[j] ==0:
+            newdir = 6
+            chain8.append(newdir)
+            i+=1
+            j+=1
+        elif (chain[i]-chain[j]>0) and ((chain[i]-chain[j]) % 4 == 2) and (chain[i]-chain[j]!=6):
+            newdir = chain[i]+chain[j]                     
+            chain8.append(newdir)
+            i+=2 
+            j+=2
+        
+        else:
+            chain8.append(chain[i])
+            j+=1
+            i+=1
+  
+    return np.array(chain8)
+    
 # decode 8-connected chain code
 def decode_edge8(chain8, shape):
     edge = np.zeros(shape)
