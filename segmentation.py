@@ -158,9 +158,9 @@ def decode_edge8(chain8, shape):
     return edge
 
 # convert an 8-connected path to a list of coordinates
-def path2coords(path):
-    coords = [np.array((path[0],path[1]))]
-    for dir in path[2:]:
+def path2coords(chain):
+    coords = [np.array((chain[0],chain[1]))]
+    for dir in chain[2:]:
         coords.append(coords[-1]+map8[dir])
     
     return np.array(coords)
@@ -203,4 +203,5 @@ def label_components(im):
     for key in equiv.keys()[::-1]:
         l_im[l_im==key] = equiv[key]
     
+    return l_im[1:-1,1:-1],equiv    # return without padding
     return l_im[1:-1,1:-1],equiv    # return without padding

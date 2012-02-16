@@ -1,4 +1,4 @@
-#Athanasios Athanassiadis Feb 2012
+# Athanasios Athanassiadis Feb 2012
 import numpy as np
 
 # get the optimal thresholding level for an n-dim image
@@ -63,19 +63,19 @@ def pad_image(im, pad=1):
     
     return newim
 
-#resample an image evenly into newshape
+# resample an image evenly into newshape
 def resample(im,newshape=(8,8)):
     samples = np.zeros(im.shape)
     sim = np.zeros(newshape)
     
-    #get the sample spacing in each direction
-    #and the appropriate shift to center the sampling
+    # get the sample spacing in each direction
+    # and the appropriate shift to center the sampling
     spacing = np.array(im.shape,dtype=np.float)/np.array(newshape,dtype=np.float)
     shift = spacing/2
 
     for n in range(newshape[0]):
         for m in range(newshape[1]):
-            #np.around() to round indeces to nearest int
+            # np.around() to round indices to nearest int
             samples[np.floor(n*spacing[0]+shift[0]),\
                     np.floor(m*spacing[1]+shift[1])] += 1
             

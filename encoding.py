@@ -1,20 +1,20 @@
-#Athanasios Athanassiadis Feb 2012
+# Athanasios Athanassiadis Feb 2012
 import numpy as np
 
-#turn a binary image into run-length data
+# turn a binary image into run-length data
 def im2rl(im):
     arr=np.array(im)
     rl = ''
-    opn = 0    #keep track of whether we're in the image or in the bkg
+    opn = 0    # keep track of whether we're in the image or in the bkg
     for r in range(arr.shape[0]):
         for c in range(arr.shape[1]):
-            if arr[r,c]==0 and opn==1: #if black and was white
+            if arr[r,c]==0 and opn==1: # if black and was white
                     rl += '{}) '.format(c-1)
                     opn = 0
-            if arr[r,c]==1 and opn==0: #if white and was black
+            if arr[r,c]==1 and opn==0: # if white and was black
                     rl += '({},{},'.format(r,c)
                     opn = 1
-        if opn==1:  #if last pix in row was white
+        if opn==1:  # if last pix in row was white
             rl += '{}) '.format(c)
             opn = 0
                     
@@ -37,8 +37,8 @@ def rl2im(rl, fn=None, imdim=(32,32)):
         
     return im
 
-#convert image into quad-tree code
-#encodes from top left of the quadrant at each level
+# convert image into quad-tree code
+# encodes from top left of the quadrant at each level
 def im2qt(im):
     arr = np.array(im)
     scores = []
@@ -46,7 +46,7 @@ def im2qt(im):
     qtcode = ''
     s1,s2 = arr.shape
 
-    #uniformity metric is all black or all white.  Gray causes a daughter node to be created.
+    # uniformity metric is all black or all white.  Gray causes a daughter node to be created.
     if arr.sum()==0:
         qtcode = 'b '
     elif arr.sum()==np.prod(arr.shape):

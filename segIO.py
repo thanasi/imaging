@@ -1,4 +1,4 @@
-#Athanasios Athanassiadis Jan 2012
+# Athanasios Athanassiadis Jan 2012
 import numpy as np
 
 # write the chain-code
