@@ -41,7 +41,7 @@ def track_edge(im,start=None):
     edge = np.zeros(im.shape)
     im2 = pad_image(im)
     chain = []
-    dir = 3
+    dir = 6
     
     # if it exists, find first 'on' point in image
     # row,col point encoding
@@ -61,20 +61,20 @@ def track_edge(im,start=None):
         point = np.array(p0)
         
     iter = 0
-    # loop until break
+    # loop until break or too many iterations reached
     while True:
         iter+=1
         if iter >= len(im2.flatten()):
             print '***track_edge: max iterations reached with no end in sight...'
             break
         # set next direction to look, 1 step counterclockwise from where we came
-        checkdir = (dir+3) % 4
-        i,j = point + map4[checkdir]
+        checkdir = (dir+7) % 8
+        i,j = point + map8[checkdir]
         
         # if we hit a pixel in the region, move there and add the direction to the list
         if im2[i,j]==1:
             dir = checkdir
-            point = point+map4[checkdir]
+            point = point+map8[checkdir]
             edge[i,j]=1
             chain.append(dir)
             
