@@ -1,14 +1,14 @@
 from pylab import *
 from ball import make_ball
-from segmentation import track_edge, reduce_chain, decode_edge8, path2coords
+from segmentation import track_edge, reduce_chain, decode_edge8, path2coords, pad_image
 from fourierd import *
 
 print 'making ball'
-ball = make_ball(100, shell=5, bgsize=(300,300), dmetric='euclid')
-#ball2 = make_ball(5, shell=2, center=(5,15),dmetric='8')
+ball = pad_image(make_ball(12, shell=5, dmetric='euclid'))
+ball2 = pad_image(make_ball(5, shell=2, center=(5,15),dmetric='8'))
 
 print 'tracking edge'
-edge,chain = track_edge(ball)
+edge,chain = track_edge((ball+ball2)>0)
 print 'reducing chain'
 chain8 = reduce_chain(chain)
 
@@ -34,8 +34,9 @@ path = fd2path(Z2, N)
 
 gray()    
 figure(1)
-imshow(ball)
+imshow(ball+ball2)
 scatter(path[:,1], path[:,0])
+#axis([ball.shape[0]-1,0,ball.shape[1]-1,0])
 #figure(2)
 #imshow(FDedge)
 show()

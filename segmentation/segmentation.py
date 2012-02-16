@@ -26,21 +26,29 @@ map8 = {0: np.array((0,1)),
         6: np.array((1,0)),
         7: np.array((1,1))
         }
+        
+# pad image with zeros    
+def pad_image(im, pad=1):
+    newim = np.zeros(np.array(im.shape) + 2*pad)
+    newim[pad:-pad,pad:-pad] = im.copy()
+    
+    return newim
 
 # track the edge of a region in an image
 # im should be a binary mask
 # start is an optional point to start the search
 def track_edge(im,start=None):
     edge = np.zeros(im.shape)
+    im2 = pad_image(im)
     chain = []
     dir = 3
     
     # if it exists, find first 'on' point in image
     # row,col point encoding
     try:
-        on = np.nonzero(im)
+        on = np.nonzero(im2)
         i,j =on[0][0],on[1][0]
-        chain = [i,j]
+        chain = [i-1,j-1]
         p0 = (i,j)
         point = np.array(p0)
     except:
@@ -56,7 +64,7 @@ def track_edge(im,start=None):
     # loop until break
     while True:
         iter+=1
-        if iter >= len(im.flatten()):
+        if iter >= len(im2.flatten()):
             print '***track_edge: max iterations reached with no end in sight...'
             break
         # set next direction to look, 1 step counterclockwise from where we came
@@ -64,7 +72,7 @@ def track_edge(im,start=None):
         i,j = point + map4[checkdir]
         
         # if we hit a pixel in the region, move there and add the direction to the list
-        if im[i,j]==1:
+        if im2[i,j]==1:
             dir = checkdir
             point = point+map4[checkdir]
             edge[i,j]=1
@@ -140,13 +148,6 @@ def write_chain(fn, chain):
         for i in chain:
             of.write('{} '.format(i))
     print 'Successfully wrote: '+fn
-
-# pad image with zeros    
-def pad_image(im, pad=1):
-    newim = np.zeros(np.array(im.shape) + 2*pad)
-    newim[pad:-pad,pad:-pad] = im.copy()
-    
-    return newim
 
 # find and label 8-connected components
 def label_components(im):
