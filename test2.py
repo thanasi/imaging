@@ -2,18 +2,21 @@ from fsnake import *
 from pylab import *
 from imcore import CoM
 
-im = np.zeros((70,70))
-snake = init_snake(30,(30,25),im.shape)
+im = np.zeros((11,11))
+snake = init_snake(2,(6,6),im.shape)
 
 print snake[0]
 
-for point in snake:
+for point in snake[1:]:
     im[point[0],point[1]] = 1
     
-c = CoM(im)
+c_ = CoM(im)
 
-print c
+print snake
+print im
+
+print c_
 imshow(im)
-scatter(c[1],c[0])
+scatter(c_[1],c_[0])
+scatter(snake[0][1],snake[0][0])
 show()
-

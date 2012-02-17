@@ -27,6 +27,7 @@ def path2fd(path, k):
     return np.real_if_close(Zk,1e6)
     
 # calculate a path given a set of fourier descriptors
+# currently returns integer using np.around()
 def fd2path(Z,N):
     N2 = min(N,len(Z))
     k = np.arange(0,N2)
@@ -34,8 +35,8 @@ def fd2path(Z,N):
     z = np.array([(Z2 * exp(2j * pi * n * k / N)).sum() \
                   for n in range(N)])
     
-    x = np.real(z)
-    y = np.imag(z)
+    x = np.around(np.real(z))
+    y = np.around(np.imag(z))
     
     # switch back to row,col from x,y
     path = np.array(zip(x,y))

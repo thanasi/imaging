@@ -92,4 +92,4 @@ def CoM(im):
         for j in range(shape[1]):
             center += im[i,j]*np.array([i,j])
     center /= 1.0*len(np.nonzero(im)[0])
-    return np.floor(center)
+    return np.around(center)
