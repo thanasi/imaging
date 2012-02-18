@@ -23,6 +23,10 @@ def contour(im, startpoint):
     H = []
     snake_im = np.zeros(im.shape)
     
+    # snake should be stored as the set of Fourier Descriptors of the snake
+    # it should only be transformed into real space for the purpose of checking cost
+    # also, cost should be improved since it doesn't seem to be working correctly at the moment
+    
     i=0
     while i < 15:
         snake = init_snake(i+1, startpoint, im.shape)

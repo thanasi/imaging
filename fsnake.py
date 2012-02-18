@@ -17,7 +17,7 @@ def cost(im, snake, sigma = 1):
     
     return H
     
-# initialize a snake (path)
+# initialize a snake (path), which is returned as its Fourier Descriptors
 # centered at center
 # do this by defining the FD to just have first two components
 def init_snake(r, center, shape):
@@ -31,10 +31,8 @@ def init_snake(r, center, shape):
     #snake2 = seg.path2coords(chain[:-1])         # last point is redundant
     
     Z = np.array([ center[0] + 1j * center[1], r])
-    N = 7 * r
-    snake = fd.fd2path(Z,N)
-    
-    return snake
+       
+    return Z
     
 def snake2im(snake, shape):
     snake_im = np.zeros(shape)
