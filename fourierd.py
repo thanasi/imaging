@@ -40,5 +40,5 @@ def fd2path(Z,N):
     
     # switch back to row,col from x,y
     path = np.array(zip(x,y))
-    
+
     return path

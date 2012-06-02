@@ -1,5 +1,6 @@
 # Athanasios Athanassiadis Feb 2012
 import numpy as np
+import pylab as pl
 
 # get the optimal thresholding level for an n-dim image
 # from Otsu Threshold Selection Method paper
