@@ -1,7 +1,7 @@
 # Athanasios Athanassiadis Jan 2012
 import numpy as np
 
-from imcore import pad
+from imcore import pad_image
 
 # establish maps between direction and motion
 # 4-connected
@@ -32,7 +32,7 @@ map8 = {0: np.array((0,1)),
 # start is an optional point to start the search
 def track_edge(im,start=None):
     edge = np.zeros(im.shape)
-    im2 = pad(im)
+    im2 = pad_image(im)
     chain = []
     dir = 6
     
@@ -168,7 +168,7 @@ def path2coords(chain):
 # find and label 8-connected components
 def label_components(im):
     # initially pad label image so that we can the first row without error
-    l_im = pad(np.zeros(im.shape))
+    l_im = pad_image(np.zeros(im.shape))
     equiv = {0:0.0}
     
     # raster through image

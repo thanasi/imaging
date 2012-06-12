@@ -54,16 +54,12 @@ def double_otsu_larger(im):
     return t2
 
 
-def get_largest_component(im):
-    ''' return the largest component of a binary image '''
+def get_largest_component(la):
+    ''' return the largest component of a labeled image '''
     
-    assert im.dtype==bool, \
-     'need to pass a binary image in (received %s)' % str(im.dtype)
-    
-    la = mahotas.label(im)[0]
-    sums = ndimage.measurements.sum(la>0, la, range(1,la.max() + 1))
-    big_value = np.argmax(sums)+1
-    largest = la == big_value
+    sums = ndimage.measurements.sum(la>0, la, range(la.max() + 1))
+    big_value = np.argmax(sums)
+    largest = im == big_value
     
     return largest
 
@@ -86,7 +82,7 @@ def eccentricity(im):
     return e
 
 
-def pad(im, n=1, mode='const', c=0):
+def pad(im, n, mode='const', c=0):
     '''
         pad an image with n pixels on each side
         
@@ -107,7 +103,7 @@ def pad(im, n=1, mode='const', c=0):
     return im_p
 
 
-def unpad(im, n=1):
+def unpad(im, n):
     ''' unpad a padded image '''
     
     slice_ = [slice(n,-n,None) for i in range(im.ndim)]
